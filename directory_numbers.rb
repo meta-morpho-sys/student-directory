@@ -1,32 +1,39 @@
-  puts "Please enter the names of the students"
-  puts "To finish just hit return twice"
+def input_students
+  puts "Please enter the names of the students."
+  puts "To finish just hit return twice."
 
-  #create an empty array
+  # Create an empty array.
   students = []
-  # get the first name
+  # Get the first name.
   name = gets.chomp
 
-  #while the name is not empty repeat this code
+  # While the name is not empty repeat this code.
   while !name.empty? do
-    #add the student hash to the array
+    # Add the student hash to the array.
     students << {name: name, cohort: :november}
-    puts "Now we have #{students.count} students"
-    #get another name from user. If no, a contuinuous while loop will be triggered
+    puts "Now we have #{students.count} students."
+    # Get another name from user. If no, a continuous while loop will be triggered.
     name = gets.chomp
   end
-  #return the array of students
+  # Return the array of students.
   students
 end
 
 def print_header
-  puts "The Studends of Villains Academy"
-  puts "--------------"
+  header = "The Students of Villains Academy"
+  puts header
+  puts "-" * header.length
+end
+
+def select_with(students, initial_letter_in_name)
+  students.select { |element|
+    element[:name].start_with? initial_letter_in_name
+  }  # select a name if starts with specific letter
 end
 
 def print_list(students)
   students.each_with_index do |student, i|
-    puts "#{i+1} #{student[:name]} (#{student[:cohort]} cohort)"  #prints a number before the name of each student.
-    def input_students
+    puts "#{i+1} #{student[:name]} (#{student[:cohort]} cohort)"  # prints a number before the name of each student.
   end
 end
 
@@ -37,4 +44,12 @@ end
 students = input_students
 print_header
 print_list(students)
+
+puts "Please type here the initial letter of your research"
+letter = gets.chomp
+
+selected_students = select_with(students, letter)
+
+print_list(selected_students)
+
 print_footer(students)
