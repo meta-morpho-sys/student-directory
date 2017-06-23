@@ -1,3 +1,9 @@
+class String
+  def lowercase?
+    self.downcase == self
+  end
+end
+
 def input_students
   puts "Please enter the names of the students."
   puts "To finish just hit return twice."
@@ -43,7 +49,7 @@ end
 def print_list(students)
   index = 0
   while index < students.length
-    puts students[index][:name]
+    puts "#{students[index][:name]} from #{students[index][:cohort]} cohort."
     index += 1
   end
 end
@@ -57,7 +63,10 @@ print_header
 print_list(students)
 
 puts "Please type here the initial letter of your research"
-letter = gets.chomp
+begin
+  puts "(not lowercase)"
+  letter = gets.chomp
+end while letter.lowercase?
 
 selected_students = select_with(students, letter)
 print_list(selected_students)
