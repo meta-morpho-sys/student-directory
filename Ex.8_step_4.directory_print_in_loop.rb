@@ -28,12 +28,23 @@ end
 def select_with(students, initial_letter_in_name)
   students.select { |element|
     element[:name].start_with? initial_letter_in_name
-  }  # select a name if starts with specific letter
+  }  # Select a name if starts with specific letter
 end
 
+# This function selects strings with less than 12 characters.
+# "students" is an array of hashes. Each hash containts the key ":name".
+def less_than_12_characters(students)
+  students.select { |h|
+    h[:name].length < 12
+  }  # Select a name if less than 12 characters.
+end
+
+# This function will print the list of students using a "while" loop instead of "each" method.
 def print_list(students)
-  students.each_with_index do |student, i|
-    puts "#{i+1} #{student[:name]} (#{student[:cohort]} cohort)"  # prints a number before the name of each student.
+  index = 0
+  while index < students.length
+    puts students[index][:name]
+    index += 1
   end
 end
 
@@ -49,7 +60,10 @@ puts "Please type here the initial letter of your research"
 letter = gets.chomp
 
 selected_students = select_with(students, letter)
+print_list(selected_students)
 
+puts "List of names with less than 12 characters"
+selected_students = less_than_12_characters(students)
 print_list(selected_students)
 
 print_footer(students)
