@@ -1,12 +1,30 @@
+LINE_WIDTH = 120
+MONTHS = [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
+
 class String
   def lowercase?
     self.downcase == self
   end
+
+  def center_puts
+    puts self.center(LINE_WIDTH)
+  end
 end
 
+# Prompts user for details (name, age...) and returns a hash.
 def get_user_input
   print "Name: "
   name = gets.chomp.upcase
+
+  if name.empty? then name = '< Not provided >' end
+
+  print "Cohort: "
+  cohort = gets.chomp.downcase
+  if cohort.empty? then cohort = '< Not provided >' end
+  cohort = cohort.to_sym
+  if !MONTHS.include? cohort
+    puts 'Please, check spelling.'
+  end
 
   print "Age: "
   age = gets.chomp
@@ -22,7 +40,7 @@ def get_user_input
 
   {
     name: name,
-    cohort: :november,
+    cohort: cohort,
     age: age,
     born: country_of_birth,
     height: height,
@@ -71,12 +89,6 @@ def input_students
   students
 end
 
-def print_header
-  header = "The Students of Villains Academy"
-  puts header
-  puts "-" * header.length
-end
-
 def select_with(students, initial_letter_in_name)
   students.select { |element|
     element[:name].start_with? initial_letter_in_name
@@ -91,17 +103,24 @@ def less_than_12_characters(students)
   }  # Select a name if less than 12 characters.
 end
 
+def print_header
+  header = "The Students of Villains Academy"
+  header.center_puts
+  ('-' * header.length).center_puts
+end
+
 # Prints a number before the name of each student.
 # Prints name, age, place of birth, height, hobbies.
 def print_list(students)
   students.each_with_index do |student, i|
-    puts "#{i+1} #{student[:name]} - (#{student[:cohort]} cohort) - #{student[:age]} y.o. - #{student[:born]} - #{student[:height]} cm - #{student[:hobbies]}"
+    output = "#{i+1} #{student[:name]} - (#{student[:cohort]} cohort) - #{student[:age]} y.o. - #{student[:born]} - #{student[:height]} cm - #{student[:hobbies]}"
+    output.center_puts
     puts
   end
 end
 
 def print_footer(students)
-  puts "Overall we have #{students.count} great students."
+  "Overall we have #{students.count} great students.".center_puts
 end
 
 students = input_students
